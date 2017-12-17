@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  generation: 1
+  name: demoapp
+spec:
+  rules:
+  - host: demoapp.com
+    http:
+      paths:
+      - backend:
+          serviceName: demoapp
+          servicePort: 80
+        path: /demoapp
+  tls:
+  - hosts:
+    - demoapp.com
+    secretName: secret-tls-ssl
