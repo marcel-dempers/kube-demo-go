@@ -1,0 +1,38 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: "custom-config"
+  namespace: ingress
+data:
+  cors.conf: |
+    set $cors "";
+
+    if ($http_origin ~* '^(http|https)?://(localhost(:[0-9]+)?|[0-9a-z]+.webjet.com.au|[0-9a-z]+.zuji.com.au|[0-9a-z]+.webjet.co.nz)$') {
+      set $cors "true";
+    }
+
+    if ($the_real_ip = '125.7.50.82'){
+      set $cors "true";
+    }
+
+    if ($request_method = 'OPTIONS') { 
+          set $cors "${cors}options";
+    }
+
+    if ($cors = "trueoptions") {
+          add_header 'Access-Control-Allow-Origin' "*";       
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, HEAD, PUT, DELETE, OPTIONS';
+          add_header 'Access-Control-Allow-Headers' 'X-Correlation-Id,Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With';        
+
+          # Tell client that this pre-flight info is valid for 20 days
+          add_header 'Access-Control-Max-Age' 1728000;
+          add_header 'Content-Type' 'text/plain charset=UTF-8';
+          add_header 'Content-Length' 0;
+          
+          return 204;
+    }
+
+    if ($request_method ~* "(GET|POST|HEAD)") {
+          add_header "Access-Control-Allow-Origin"  "*";
+          add_header 'Access-Control-Allow-Headers' 'X-Correlation-Id,Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With';        
+    }
