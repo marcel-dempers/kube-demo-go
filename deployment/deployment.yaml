@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: demoapp
 spec:
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -14,13 +14,20 @@ spec:
       containers:
       - name: demoapp
         image: aimvector/kube-demo:go-v1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - containerPort: 80
         resources:
           requests:
-            cpu: 1
-            memory: 0.3G
+            cpu: 0.01
+            memory: 300Mi
           limits:
             cpu: 1
-            memory: 0.3G
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 3
+          timeoutSeconds: 5

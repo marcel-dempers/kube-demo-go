@@ -1,7 +1,14 @@
+#aimvector/kube-demo:go-v1
 FROM golang:1.9.2-alpine3.7 as builder
 
+# installing git
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
+    
 WORKDIR /go
 COPY . .
+
+RUN go get github.com/julienschmidt/httprouter
 
 RUN go build demoapp.go
 

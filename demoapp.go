@@ -3,15 +3,22 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
 
 	fmt.Println("Hello! From Webjet")
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("You have triggered a log from the go API")
-		fmt.Fprintln(w, "Hello! I am the go API! V1")
+	
+	router := httprouter.New()
+
+	router.GET("/status", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+		fmt.Fprintln(w, "OK")
 	})
 
-	http.ListenAndServe(":80", nil)
+	router.GET("/", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+		fmt.Fprintln(w, "Hello demoapp! Version: V1")
+	})
+
+	http.ListenAndServe(":80", router)
 }

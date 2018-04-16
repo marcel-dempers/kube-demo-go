@@ -5,6 +5,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.allow-http: "true"
+    ingress.kubernetes.io/rewrite-target: /
   generation: 1
   name: demoapp
 spec:
@@ -15,7 +16,7 @@ spec:
       - backend:
           serviceName: demoapp
           servicePort: 80
-        path: /demoapp
+        path: /api/v1
   #tls:
   #- hosts:
   #  - demoapp.com
