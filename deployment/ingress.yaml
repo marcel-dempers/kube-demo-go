@@ -5,12 +5,11 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.allow-http: "true"
-    ingress.kubernetes.io/rewrite-target: /
-  generation: 1
+    nginx.ingress.kubernetes.io/rewrite-target: /
   name: demoapp
 spec:
   rules:
-  - host: demoapp.com
+  - host: demo.com
     http:
       paths:
       - backend:

@@ -3,22 +3,28 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/mux"
 )
+
+func StatusHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "OK: path" + r.URL.Path)
+}
+
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	fmt.Fprintf(w, "PATH: %v\n", vars["id"])
+    fmt.Fprintln(w, "Hello demoapp! Version: V1")
+}
 
 func main() {
 
 	fmt.Println("Hello! From Webjet")
 	
-	router := httprouter.New()
+	r := mux.NewRouter()
 
-	router.GET("/status", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
-		fmt.Fprintln(w, "OK")
-	})
+	r.HandleFunc("/status", StatusHandler)
+	r.HandleFunc("/", RootHandler)
 
-	router.GET("/", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params){
-		fmt.Fprintln(w, "Hello demoapp! Version: V1")
-	})
-
-	http.ListenAndServe(":80", router)
+	http.ListenAndServe(":80", r)
 }

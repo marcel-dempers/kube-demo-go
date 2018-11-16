@@ -13,7 +13,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
       - name: demoapp
-        image: aimvector/kube-demo:go-v1
+        image: aimvector/kube-demo:go-v2
         imagePullPolicy: Always
         ports:
           - containerPort: 80

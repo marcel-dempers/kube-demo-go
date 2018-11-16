@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
+metadata:
+  namespace: ingress-nginx
 data:
   large-client-header-buffers: 4 16k
   client-header-buffer-size: 16k
   http2-max-field-size: 16k
 metadata:
-  namespace: ingress
   name: nginx-ingress-controller

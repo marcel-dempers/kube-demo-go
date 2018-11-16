@@ -8,7 +8,7 @@ RUN apk update && apk upgrade && \
 WORKDIR /go
 COPY . .
 
-RUN go get github.com/julienschmidt/httprouter
+RUN go get -u github.com/gorilla/mux
 
 RUN go build demoapp.go
 

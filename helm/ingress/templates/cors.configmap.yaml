@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: "custom-config"
-  namespace: ingress
+  namespace: ingress-nginx
 data:
   cors.conf: |
     set $cors "";

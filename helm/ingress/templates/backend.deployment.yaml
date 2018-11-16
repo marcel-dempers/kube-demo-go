@@ -2,9 +2,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: default-http-backend
+  namespace: ingress-nginx
   labels:
-    k8s-app: default-http-backend
-  namespace: ingress
+    app: default-http-backend
 spec:
   replicas: 2
   selector:
